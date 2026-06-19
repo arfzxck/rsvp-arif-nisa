@@ -1,117 +1,50 @@
-export default async (req) => {
+<script>
+  // Firebase config (REPLACE THIS)
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
-  if (req.method !== "POST") {
-    return new Response(
-      JSON.stringify({
-        error: "Method not allowed"
-      }),
-      {
-        status: 405,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-  }
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-  let data;
+  // RSVP FORM
+  document.getElementById("rsvp-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-  try {
-    data = await req.json();
-  } catch {
-    return new Response(
-      JSON.stringify({
-        error: "Invalid JSON"
-      }),
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-  }
+    const btn = document.getElementById("rsvp-submit");
 
-  const name = (data.name || "").trim();
-  const pax = (data.pax || "").toString().trim();
-  const status = (data.status || "").trim();
+    const name = document.getElementById("rsvp-name").value.trim();
+    const pax = document.getElementById("rsvp-pax").value.trim();
+    const status = document.getElementById("rsvp-status").value;
 
-  if (!name || !pax || !status) {
-    return new Response(
-      JSON.stringify({
-        error: "Maklumat tidak lengkap"
-      }),
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-  }
+    if (!name || !pax || !status) return;
 
-  try {
+    btn.disabled = true;
+    btn.textContent = "Menghantar...";
 
-    const GOOGLE_SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbzqjO1XL48NX0f5exbjLf81lgtsRHhb75KvVNAWiq8mqWAhtvhronQVZLpMA4UOu_EN/exec";
+    try {
+      await db.collection("rsvp").add({
+        name: name,
+        pax: Number(pax),
+        status: status,
+        createdAt: new Date()
+      });
 
-    const response = await fetch(
-      GOOGLE_SCRIPT_URL,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          pax,
-          status,
-          timestamp: new Date().toISOString()
-        })
-      }
-    );
+      document.getElementById("rsvp-success").style.display = "block";
+      document.getElementById("rsvp-form").reset();
 
-    if (!response.ok) {
-      throw new Error(
-        "Google Script returned " + response.status
-      );
+      btn.textContent = "Berjaya ✓";
+
+    } catch (err) {
+      console.error(err);
+      alert("Gagal hantar RSVP. Cuba lagi.");
+      btn.disabled = false;
+      btn.textContent = "Hantar RSVP";
     }
-
-  } catch (err) {
-
-    console.error(
-      "Failed to save RSVP:",
-      err
-    );
-
-    return new Response(
-      JSON.stringify({
-        error: "Failed to save RSVP"
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-  }
-
-  return new Response(
-    JSON.stringify({
-      ok: true,
-      message: "RSVP berjaya dihantar"
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-};
-
-export const config = {
-  path: "/api/rsvp",
-  method: "POST"
-};
+  });
+</script>
