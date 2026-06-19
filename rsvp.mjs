@@ -53,7 +53,7 @@ export default async (req) => {
   try {
 
     const GOOGLE_SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbzqjO1XL48NX0f5exbjLf81lgtsRHhb75KvVNAWiq8mqWAhtvhronQVZLpMA4UOu_EN/exec";
+      "https://script.google.com/macros/s/AKfycbyANp79fs2-BTk_hNdcga8q7Jqej-cvVPQS01cIhbUrw4Jc7BTPq2rxq2ez-5yDjPQ0/exec";
 
     const response = await fetch(
       GOOGLE_SCRIPT_URL,
