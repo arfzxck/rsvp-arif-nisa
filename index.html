@@ -1,98 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSVP Arif & Nisa</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arif & Nisa – Walimatul Urus</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+
   <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
     body {
-      font-family: Arial;
-      background: #f7f7f7;
+      font-family: 'Montserrat', sans-serif;
+      height: 100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: #1a1209;
+      color: white;
+      text-align:center;
+    }
+
+    .container {
+      max-width: 500px;
       padding: 20px;
     }
 
-    .card {
-      max-width: 400px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      margin-bottom: 10px;
     }
 
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
+    .gold {
+      color: #c59d5f;
+    }
+
+    p {
+      opacity: 0.7;
+      margin-bottom: 30px;
     }
 
     button {
-      background: black;
-      color: white;
+      padding: 12px 28px;
       border: none;
       cursor: pointer;
+      background: linear-gradient(135deg,#9e7a3f,#c59d5f,#e8c98a);
+      color: #1a1209;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 3px;
     }
 
     button:hover {
-      opacity: 0.8;
+      transform: translateY(-2px);
+      transition: 0.2s;
     }
   </style>
 </head>
+
 <body>
 
-<div class="card">
-  <h2>RSVP Wedding</h2>
+  <div class="container">
+    <h1><span class="gold">Arif</span> & Nisa</h1>
+    <p>Walimatul Urus • 27 September 2026</p>
 
-  <input type="text" id="name" placeholder="Name" required>
+    <button onclick="openMain()">
+      Buka Jemputan
+    </button>
+  </div>
 
-  <input type="number" id="pax" placeholder="Number of Pax" required>
-
-  <select id="status">
-    <option value="Hadir">Hadir</option>
-    <option value="Tidak Hadir">Tidak Hadir</option>
-  </select>
-
-  <button onclick="submitRSVP()">Submit</button>
-
-  <p id="msg"></p>
-</div>
-
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwNLwAgMXHpxkUDCBcKepvc6HSI9y0EofpFJoZow_oZEMZEaHP31mZ3_bfm-QEsDSpy/exec";
-  
-
-function submitRSVP() {
-  const name = document.getElementById("name").value;
-  const pax = document.getElementById("pax").value;
-  const status = document.getElementById("status").value;
-
-  if (!name || !pax) {
-    document.getElementById("msg").innerText = "Please fill all fields";
-    return;
-  }
-
-  fetch(API_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    name: name,
-    pax: pax,
-    status: status
-  })
-})
-  .then(res => res.text())
-  .then(res => {
-    document.getElementById("msg").innerText = "RSVP submitted successfully!";
-    document.getElementById("name").value = "";
-    document.getElementById("pax").value = "";
-  })
-  .catch(err => {
-    document.getElementById("msg").innerText = "Error submitting RSVP";
-  });
-}
-</script>
+  <script>
+    function openMain() {
+      window.location.href = "main.html";
+    }
+  </script>
 
 </body>
 </html>
