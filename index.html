@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arif & Nisa – Walimatul Urus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #c59d5f;
+      --gold-light: #e8c98a;
+      --gold-dark: #9e7a3f;
+      --white: #ffffff;
+      --cream: #fdf8f2;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #1a1209;
+    }
+
+    .cover {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=80') center/cover no-repeat;
+      transform: scale(1.05);
+      animation: zoomOut 12s ease-out forwards;
+    }
+
+    @keyframes zoomOut {
+      from { transform: scale(1.1); }
+      to   { transform: scale(1.0); }
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10, 6, 2, 0.55) 0%,
+        rgba(10, 6, 2, 0.70) 50%,
+        rgba(10, 6, 2, 0.80) 100%
+      );
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 1.2s ease 0.4s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cover-bismillah {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      color: var(--gold-light);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0.85;
+    }
+
+    .cover-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.2rem auto;
+    }
+
+    .cover-divider span {
+      display: block;
+      height: 1px;
+      width: 60px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+
+    .cover-divider span:last-child {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+
+    .cover-divider-icon {
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .cover-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 12vw, 6rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+    }
+
+    .cover-names em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .cover-ampersand {
+      display: block;
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: var(--gold);
+      margin: 0.1em 0;
+      font-style: italic;
+    }
+
+    .cover-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-top: 1.4rem;
+    }
+
+    .cover-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      color: var(--gold-light);
+      letter-spacing: 0.15em;
+      margin-top: 0.5rem;
+    }
+
+    .open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      padding: 0.95rem 2.6rem;
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+      background-size: 200% 200%;
+      color: #1a1209;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background-position 0.4s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 24px rgba(197, 157, 95, 0.35);
+    }
+
+    .open-btn:hover, .open-btn:focus {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(197, 157, 95, 0.5);
+      outline: none;
+    }
+
+    .open-btn:active {
+      transform: translateY(0);
+    }
+
+    .open-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .cover-bottom {
+      position: absolute;
+      bottom: 2rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.4s forwards;
+    }
+
+    .cover-bottom p {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* Floating petals */
+    .petals {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .petal {
+      position: absolute;
+      top: -10%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0%   { opacity: 0; transform: translateY(-10px) rotate(0deg); }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(110vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <div class="cover-bg"></div>
+    <div class="cover-overlay"></div>
+
+    <!-- Petals -->
+    <div class="petals" id="petals"></div>
+
+    <div class="cover-content">
+      <p class="cover-bismillah">Bismillahirrahmanirrahim</p>
+
+      <div class="cover-divider">
+        <span></span>
+        <span class="cover-divider-icon">✦</span>
+        <span></span>
+      </div>
+
+      <div class="cover-names">
+        <em>Arif</em>
+        <span class="cover-ampersand">&amp;</span>
+        <em>Nisa</em>
+      </div>
+
+      <p class="cover-subtitle">Walimatul Urus</p>
+      <p class="cover-date">27 September 2026</p>
+
+      <div class="cover-divider" style="margin-top:1.5rem;">
+        <span></span>
+        <span class="cover-divider-icon">✦</span>
+        <span></span>
+      </div>
+
+      <a href="main.html" class="open-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+        </svg>
+        Buka Jemputan
+      </a>
+    </div>
+
+    <div class="cover-bottom">
+      <p>Sila klik untuk membuka jemputan</p>
+    </div>
+  </div>
+
+  <script>
+    // Floating petals
+    (function() {
+      var container = document.getElementById('petals');
+      var colors = ['#c59d5f', '#e8c98a', '#f5e6cc', '#d4b483'];
+      for (var i = 0; i < 18; i++) {
+        var p = document.createElement('div');
+        p.className = 'petal';
+        p.style.left = (Math.random() * 100) + '%';
+        p.style.top = (Math.random() * -50) + '%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.width = (5 + Math.random() * 7) + 'px';
+        p.style.height = (5 + Math.random() * 7) + 'px';
+        p.style.animationDuration = (8 + Math.random() * 12) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(p);
+      }
+    })();
+  </script>
+</body>
+</html>
