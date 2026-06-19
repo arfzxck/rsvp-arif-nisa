@@ -59,6 +59,7 @@
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwNLwAgMXHpxkUDCBcKepvc6HSI9y0EofpFJoZow_oZEMZEaHP31mZ3_bfm-QEsDSpy/exec";
+  
 
 function submitRSVP() {
   const name = document.getElementById("name").value;
@@ -71,13 +72,16 @@ function submitRSVP() {
   }
 
   fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      name: name,
-      pax: pax,
-      status: status
-    })
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: name,
+    pax: pax,
+    status: status
   })
+})
   .then(res => res.text())
   .then(res => {
     document.getElementById("msg").innerText = "RSVP submitted successfully!";
