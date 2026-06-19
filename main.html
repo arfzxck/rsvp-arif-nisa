@@ -5,102 +5,100 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jemputan Perkahwinan – Arif & Nisa</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <!-- ✅ Firebase COMPAT MODE (IMPORTANT FIX) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <style>
-    /* (YOUR ORIGINAL CSS KEPT EXACTLY AS IT IS) */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --gold: #c59d5f;
-      --gold-light: #e8c98a;
-      --gold-dark: #9e7a3f;
-      --gold-bg: rgba(197,157,95,0.08);
-      --white: #ffffff;
-      --cream: #fdf8f2;
-      --dark: #1a1209;
-      --text: #3d2e1a;
-      --text-muted: #7a6650;
-      --border: rgba(197,157,95,0.25);
-    }
-
-    html { scroll-behavior: smooth; }
-
     body {
+      margin: 0;
       font-family: 'Montserrat', sans-serif;
-      background: var(--cream);
-      color: var(--text);
+      background: #fdf8f2;
+      color: #3d2e1a;
     }
 
-    /* 🔴 KEEP REST OF YOUR CSS EXACTLY (not shortened for readability) */
+    header {
+      padding: 40px;
+      text-align: center;
+      background: #1a1209;
+      color: white;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #c59d5f;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .success {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      background: #e8c98a;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="header">
-  <div class="header-bg"></div>
-  <div class="header-overlay"></div>
-
-  <div class="header-content">
-    <p class="header-bismillah">Dengan nama Allah Yang Maha Pemurah lagi Maha Mengasihani</p>
-
-    <div class="header-names">
-      <em>Arif</em>
-      <span class="header-amp">&amp;</span>
-      <em>Nisa</em>
-    </div>
-
-    <p class="header-tagline">Walimatul Urus</p>
-    <div class="header-date-badge">27 September 2026 · Ahad</div>
-  </div>
+<header>
+  <h1>Arif & Nisa</h1>
+  <p>RSVP Jemputan Perkahwinan</p>
 </header>
 
-<!-- ================= RSVP SECTION ================= -->
-<section class="rsvp-section section">
+<div class="container">
 
-  <div class="rsvp-card">
+  <form id="rsvp-form">
+    <label>Nama</label>
+    <input type="text" id="rsvp-name" required />
 
-    <form id="rsvp-form">
-      <div class="form-group">
-        <label>Nama Penuh</label>
-        <input type="text" id="rsvp-name" required />
-      </div>
+    <label>Pax</label>
+    <input type="number" id="rsvp-pax" min="1" required />
 
-      <div class="form-group">
-        <label>Bilangan Tetamu</label>
-        <input type="number" id="rsvp-pax" min="1" max="20" required />
-      </div>
+    <label>Status</label>
+    <select id="rsvp-status" required>
+      <option value="">Pilih</option>
+      <option value="Hadir">Hadir</option>
+      <option value="Tidak Hadir">Tidak Hadir</option>
+    </select>
 
-      <div class="form-group">
-        <label>Status</label>
-        <select id="rsvp-status" required>
-          <option value="">Pilih</option>
-          <option value="Hadir">Hadir</option>
-          <option value="Tidak Hadir">Tidak Hadir</option>
-        </select>
-      </div>
+    <button id="rsvp-submit" type="submit">Hantar RSVP</button>
+  </form>
 
-      <button class="btn btn-gold" id="rsvp-submit" type="submit">
-        Hantar RSVP
-      </button>
-    </form>
-
-    <div class="rsvp-success" id="rsvp-success">
-      Terima kasih! RSVP anda telah diterima 💛
-    </div>
-
+  <div class="success" id="rsvp-success">
+    Terima kasih! RSVP diterima 💛
   </div>
-</section>
 
-<!-- ================= FIREBASE CONFIG ================= -->
+</div>
+
+<!-- ✅ FIREBASE CONFIG -->
 <script>
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
@@ -115,10 +113,9 @@
   const db = firebase.firestore();
 </script>
 
-<!-- ================= MAIN SCRIPT ================= -->
+<!-- ✅ RSVP LOGIC -->
 <script>
-
-document.getElementById("rsvp-form").addEventListener("submit", function(e) {
+document.getElementById("rsvp-form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const btn = document.getElementById("rsvp-submit");
@@ -132,25 +129,25 @@ document.getElementById("rsvp-form").addEventListener("submit", function(e) {
   btn.disabled = true;
   btn.textContent = "Menghantar...";
 
-  db.collection("rsvp").add({
-    name: name,
-    pax: Number(pax),
-    status: status,
-    createdAt: new Date()
-  })
-  .then(() => {
+  try {
+    await db.collection("rsvp").add({
+      name,
+      pax: Number(pax),
+      status,
+      createdAt: new Date()
+    });
+
     document.getElementById("rsvp-success").style.display = "block";
-    btn.textContent = "Berjaya ✓";
     document.getElementById("rsvp-form").reset();
-  })
-  .catch((err) => {
+    btn.textContent = "Berjaya ✓";
+
+  } catch (err) {
     console.error(err);
-    alert("Error menghantar RSVP");
+    alert("Gagal hantar RSVP");
     btn.disabled = false;
     btn.textContent = "Hantar RSVP";
-  });
+  }
 });
-
 </script>
 
 </body>
