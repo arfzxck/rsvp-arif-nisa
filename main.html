@@ -821,52 +821,65 @@
     // ── RSVP endpoint ───────────────────────────────────────────────────────
     const API_URL = "https://script.google.com/macros/s/AKfycbw14ozWNJT9PsWuxeVxRh7DXzhaUUgvbG5MB5wDEyaQIa-HFLzmpRp52QnOAnn_XNJ4TQ/exec";
 
-    function submitRSVP() {
-  const name = document.getElementById("name").value.trim();
-  const pax = document.getElementById("pax").value;
-  const status = document.getElementById("status").value;
-  const msg = document.getElementById("msg");
-  const btn = document.getElementById("btn");
+    document.getElementById("rsvp-form").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-  if (!name || !pax) {
-    msg.innerText = "Sila isi semua maklumat";
-    msg.style.color = "red";
+  const name = document.getElementById("rsvp-name").value.trim();
+  const pax = document.getElementById("rsvp-pax").value;
+  const status = document.getElementById("rsvp-status").value;
+
+  const btn = document.getElementById("rsvp-submit");
+  const successBox = document.getElementById("rsvp-success");
+
+  if (!name || !pax || !status) {
+    alert("Sila lengkapkan semua maklumat.");
     return;
   }
 
-  btn.classList.add("loading");
-  btn.innerText = "Menghantar...";
+  btn.disabled = true;
+  btn.innerHTML = "Menghantar...";
 
-  // IMPORTANT: use URLSearchParams (fix Google Apps Script issue)
   fetch(API_URL, {
     method: "POST",
     body: new URLSearchParams({
+      timestamp: new Date().toLocaleString("en-MY"),
       name: name,
       pax: pax,
-      status: status,
-      timestamp: new Date().toLocaleString("en-MY")
+      status: status
     })
   })
-  .then(res => res.text())
-  .then(res => {
-    msg.innerText = "RSVP berjaya dihantar!";
-    msg.style.color = "green";
+  .then(response => response.text())
+  .then(result => {
+    console.log(result);
 
-    document.getElementById("name").value = "";
-    document.getElementById("pax").value = "";
+    successBox.classList.add("show");
 
-    btn.classList.remove("loading");
-    btn.innerText = "Hantar RSVP";
+    document.getElementById("rsvp-form").reset();
+
+    btn.disabled = false;
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Hantar RSVP
+    `;
   })
-  .catch(err => {
-    console.log(err);
-    msg.innerText = "Error menghantar RSVP";
-    msg.style.color = "red";
+  .catch(error => {
+    console.error(error);
 
-    btn.classList.remove("loading");
-    btn.innerText = "Hantar RSVP";
+    alert("Maaf, berlaku ralat semasa menghantar RSVP.");
+
+    btn.disabled = false;
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Hantar RSVP
+    `;
   });
-}
+});
     // ────────────────────────────────────────────────────────────────────────
 
     // ── COUNTDOWN ───────────────────────────────────────────────────────────
