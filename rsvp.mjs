@@ -1,38 +1,117 @@
-const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycby8VYhfnv1wQFtFgyCM4fBXf54_brtUwB-4dVq_cvBZjT8l8dI1P_ES-jHOG4WMxumv/exec";
+export default async (req) => {
 
-async function submitRSVP() {
-  const name = document.getElementById("name").value;
-  const pax = document.getElementById("pax").value;
-  const status = document.querySelector("input[name='status']:checked")?.value;
+  if (req.method !== "POST") {
+    return new Response(
+      JSON.stringify({
+        error: "Method not allowed"
+      }),
+      {
+        status: 405,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+  }
+
+  let data;
+
+  try {
+    data = await req.json();
+  } catch {
+    return new Response(
+      JSON.stringify({
+        error: "Invalid JSON"
+      }),
+      {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+  }
+
+  const name = (data.name || "").trim();
+  const pax = (data.pax || "").toString().trim();
+  const status = (data.status || "").trim();
 
   if (!name || !pax || !status) {
-    alert("Sila lengkapkan maklumat RSVP");
-    return;
+    return new Response(
+      JSON.stringify({
+        error: "Maklumat tidak lengkap"
+      }),
+      {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
   }
 
   try {
-    const res = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        pax,
-        status,
-        timestamp: new Date().toISOString()
-      })
-    });
 
-    const result = await res.json();
+    const GOOGLE_SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbzqjO1XL48NX0f5exbjLf81lgtsRHhb75KvVNAWiq8mqWAhtvhronQVZLpMA4UOu_EN/exec";
 
-    if (result.ok) {
-      alert("RSVP berjaya dihantar!");
-      document.getElementById("rsvp-form").reset();
-    } else {
-      alert("Gagal hantar RSVP");
+    const response = await fetch(
+      GOOGLE_SCRIPT_URL,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          pax,
+          status,
+          timestamp: new Date().toISOString()
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Google Script returned " + response.status
+      );
     }
 
   } catch (err) {
-    console.error(err);
-    alert("Error semasa hantar RSVP");
+
+    console.error(
+      "Failed to save RSVP:",
+      err
+    );
+
+    return new Response(
+      JSON.stringify({
+        error: "Failed to save RSVP"
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
   }
-}
+
+  return new Response(
+    JSON.stringify({
+      ok: true,
+      message: "RSVP berjaya dihantar"
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
+};
+
+export const config = {
+  path: "/api/rsvp",
+  method: "POST"
+};
