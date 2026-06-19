@@ -76,6 +76,7 @@ function submitRSVP() {
     "Content-Type": "application/json"
   },
   body: JSON.stringify({
+    timestamp: new Date().toISOString(),
     name: name,
     pax: pax,
     status: status
