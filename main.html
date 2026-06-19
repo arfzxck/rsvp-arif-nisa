@@ -818,9 +818,34 @@
 </audio>
 
   <script>
-    // ── RSVP endpoint ───────────────────────────────────────────────────────
-    var rsvpEndpoint = "https://script.google.com/macros/s/AKfycbwNLwAgMXHpxkUDCBcKepvc6HSI9y0EofpFJoZow_oZEMZEaHP31mZ3_bfm-QEsDSpy/exec";
-    // ────────────────────────────────────────────────────────────────────────
+    var rsvpEndpoint = "https://script.google.com/macros/s/AKfycbyANp79fs2-BTk_hNdcga8q7Jqej-cvVPQS01cIhbUrw4Jc7BTPq2rxq2ez-5yDjPQ0/exec";
+
+document.getElementById("rsvp-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  var name = document.getElementById("rsvp-name").value;
+  var pax = document.getElementById("rsvp-pax").value;
+  var status = document.getElementById("rsvp-status").value;
+
+  fetch(rsvpEndpoint, {
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      pax: pax,
+      status: status
+    })
+  })
+  .then(res => res.text())
+  .then(data => {
+    console.log("Response:", data);
+    alert("RSVP berjaya!");
+    document.getElementById("rsvp-form").reset();
+  })
+  .catch(err => {
+    console.log(err);
+    alert("RSVP gagal dihantar");
+  });
+});
 
     // ── COUNTDOWN ───────────────────────────────────────────────────────────
     var target = new Date("2026-09-27T11:00:00+08:00").getTime();
