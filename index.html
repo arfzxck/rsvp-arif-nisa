@@ -4,26 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RSVP Arif & Nisa</title>
+
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       background: #f7f7f7;
       padding: 20px;
     }
 
     .card {
-      max-width: 400px;
+      max-width: 420px;
       margin: auto;
       background: white;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 25px;
+      border-radius: 12px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
     }
 
     input, select, button {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 14px;
     }
 
     button {
@@ -31,28 +39,41 @@
       color: white;
       border: none;
       cursor: pointer;
+      font-weight: bold;
     }
 
     button:hover {
-      opacity: 0.8;
+      opacity: 0.85;
+    }
+
+    #msg {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
     }
   </style>
 </head>
+
 <body>
 
 <div class="card">
   <h2>RSVP Wedding</h2>
 
-  <input type="text" id="name" placeholder="Name" required>
+  <input type="text" id="name" placeholder="Nama" />
 
-  <input type="number" id="pax" placeholder="Number of Pax" required>
+  <input type="number" id="pax" placeholder="Bilangan Pax" min="1" />
 
   <select id="status">
     <option value="Hadir">Hadir</option>
     <option value="Tidak Hadir">Tidak Hadir</option>
   </select>
 
-  <button onclick="submitRSVP()">Submit</button>
+  <button onclick="submitRSVP()" id="btn">Hantar RSVP</button>
 
   <p id="msg"></p>
 </div>
@@ -61,35 +82,49 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbw14ozWNJT9PsWuxeVxRh7DXzhaUUgvbG5MB5wDEyaQIa-HFLzmpRp52QnOAnn_XNJ4TQ/exec";
 
 function submitRSVP() {
-  const name = document.getElementById("name").value;
+  const name = document.getElementById("name").value.trim();
   const pax = document.getElementById("pax").value;
   const status = document.getElementById("status").value;
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("btn");
 
   if (!name || !pax) {
-    document.getElementById("msg").innerText = "Please fill all fields";
+    msg.innerText = "Sila isi semua maklumat";
+    msg.style.color = "red";
     return;
   }
 
+  btn.classList.add("loading");
+  btn.innerText = "Menghantar...";
+
+  // IMPORTANT: use URLSearchParams (fix Google Apps Script issue)
   fetch(API_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    timestamp: new Date().toISOString(),
-    name: name,
-    pax: pax,
-    status: status
+    method: "POST",
+    body: new URLSearchParams({
+      name: name,
+      pax: pax,
+      status: status,
+      timestamp: new Date().toLocaleString("en-MY")
+    })
   })
-})
   .then(res => res.text())
   .then(res => {
-    document.getElementById("msg").innerText = "RSVP submitted successfully!";
+    msg.innerText = "RSVP berjaya dihantar!";
+    msg.style.color = "green";
+
     document.getElementById("name").value = "";
     document.getElementById("pax").value = "";
+
+    btn.classList.remove("loading");
+    btn.innerText = "Hantar RSVP";
   })
   .catch(err => {
-    document.getElementById("msg").innerText = "Error submitting RSVP";
+    console.log(err);
+    msg.innerText = "Error menghantar RSVP";
+    msg.style.color = "red";
+
+    btn.classList.remove("loading");
+    btn.innerText = "Hantar RSVP";
   });
 }
 </script>
