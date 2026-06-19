@@ -1,5 +1,5 @@
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxK6Qy2VxOVZn-ZWeyjKOB4VMoCwmZp31T76tLEGR_czInbH0spUFBw-uMLzWXLrmWf/exec";
+  "https://script.google.com/macros/s/AKfycby8VYhfnv1wQFtFgyCM4fBXf54_brtUwB-4dVq_cvBZjT8l8dI1P_ES-jHOG4WMxumv/exec";
 
 async function submitRSVP() {
   const name = document.getElementById("name").value;
