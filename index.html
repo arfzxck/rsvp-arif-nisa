@@ -275,6 +275,18 @@
       #main {
         background: #fdf8f2;
       }
+
+      #rsvp-message {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(197, 157, 95, 0.2);
+        border-radius: 3px;
+        color: rgba(255, 255, 255, 0.85);
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.875rem;
+        outline: none;
+      }
     </style>
   </head>
   <body>
@@ -1266,6 +1278,17 @@
                     <option value="Tidak Hadir">✗ Tidak Hadir</option>
                   </select>
                 </div>
+                <div class="form-group">
+                  <label for="rsvp-message">Ucapan (Sekiranya ada)</label>
+                  <textarea
+                    id="rsvp-message"
+                    name="message"
+                    maxlength="400"
+                    rows="5"
+                    placeholder="Tulis ucapan atau mesej anda di sini..."
+                    style="resize: none"
+                  ></textarea>
+                </div>
 
                 <div class="rsvp-actions">
                   <button
@@ -1334,7 +1357,6 @@
 
         <!-- Music button -->
         <button class="music-btn" id="music-btn" title="Muzik">
-          
           <svg id="music-icon-play" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z"></path>
           </svg>
@@ -1368,6 +1390,9 @@
               const name = document.getElementById("rsvp-name").value.trim();
               const pax = document.getElementById("rsvp-pax").value;
               const status = document.getElementById("rsvp-status").value;
+              const message = document
+                .getElementById("rsvp-message")
+                .value.trim();
 
               const btn = document.getElementById("rsvp-submit");
               const successBox = document.getElementById("rsvp-success");
@@ -1387,6 +1412,7 @@
                   name: name,
                   pax: pax,
                   status: status,
+                  message: message,
                 }),
               })
                 .then((response) => response.text())
@@ -1475,7 +1501,7 @@
           var musicBtn = document.getElementById("music-btn");
           var iconPlay = document.getElementById("music-icon-play");
           var iconPause = document.getElementById("music-icon-pause");
-          var playing = false;
+          var playing = true;
 
           musicBtn.addEventListener("click", function () {
             if (!playing) {
