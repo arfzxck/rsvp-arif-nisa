@@ -309,17 +309,7 @@
           <span></span>
         </div>
 
-        <button class="open-btn" onclick="enterSite()">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M20 12V22H4V12" />
-          </svg>
-          Buka Jemputan
-        </button>
+        <button class="open-btn" onclick="enterSite()">Buka Jemputan</button>
       </div>
 
       <div class="cover-bottom">
@@ -1344,10 +1334,9 @@
 
         <!-- Music button -->
         <button class="music-btn" id="music-btn" title="Muzik">
+          
           <svg id="music-icon-play" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M9 18V5l12-2v13" />
-            <circle cx="6" cy="18" r="3" />
-            <circle cx="18" cy="16" r="3" />
+            <path d="M8 5v14l11-7z"></path>
           </svg>
 
           <svg
@@ -1486,10 +1475,10 @@
           var musicBtn = document.getElementById("music-btn");
           var iconPlay = document.getElementById("music-icon-play");
           var iconPause = document.getElementById("music-icon-pause");
-          var playing = true;
+          var playing = false;
 
           musicBtn.addEventListener("click", function () {
-            if (playing) {
+            if (!playing) {
               audio.pause();
               iconPlay.style.display = "";
               iconPause.style.display = "none";
