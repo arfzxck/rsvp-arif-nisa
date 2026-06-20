@@ -561,6 +561,94 @@
             animation: bounce 2s ease-in-out infinite;
           }
 
+          .wish-card {
+            background: transparent;
+            border: none;
+            padding: 25px 15px;
+            text-align: center;
+          }
+
+          .wish-card:not(:last-child) {
+            border-bottom: none !important;
+          }
+
+          .wish-message {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 12px;
+          }
+
+          .wish-name {
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+          }
+
+          /* Container scroll */
+          #wish-list {
+            max-height: 450px;
+            overflow-y: auto;
+            padding: 0 10px;
+
+            /* Hide scrollbar */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+
+          #wish-list::-webkit-scrollbar {
+            display: none;
+          }
+
+          #wish-list::-webkit-scrollbar-thumb {
+            background: rgba(197, 157, 95, 0.5);
+            border-radius: 10px;
+          }
+
+          #wish-list-container::-webkit-scrollbar-track {
+            background: rgba(197, 157, 95, 0.1);
+          }
+
+          /* Setiap ucapan */
+          .wish-item {
+            text-align: center;
+            padding: 25px 0;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+
+          /* Ucapan */
+          .wish-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+          }
+
+          /* Nama */
+          .wish-name {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1rem;
+          }
+
+          .wishes-section {
+            background: #2f271c; /* sama macam RSVP */
+          }
+
+          .wishes-section .section-label {
+            text-align: center;
+            color: var(--gold);
+          }
+
+          .wishes-section .section-title {
+            text-align: center;
+            color: var(--gold-light);
+            margin-bottom: 2rem;
+          }
+
           @keyframes bounce {
             0%,
             100% {
@@ -1319,6 +1407,20 @@
           </div>
         </section>
 
+        <section class="section wishes-section">
+          <div class="section-inner">
+            <p class="section-label" style="text-align: center">
+              Ucapan Tetamu
+            </p>
+
+            <h2 class="section-title" style="text-align: center">
+              Doa & Ucapan
+            </h2>
+
+            <div id="wish-list"></div>
+          </div>
+        </section>
+
         <!-- ══════════ FOOTER ══════════ -->
         <footer>
           <div
@@ -1535,6 +1637,37 @@
                 iconPause.style.display = "none";
               });
           });
+
+          function loadMessages() {
+            fetch(API_URL)
+              .then((response) => response.json())
+              .then((data) => {
+                const container = document.getElementById("wish-list");
+
+                let html = "";
+
+                data.reverse().forEach((row) => {
+                  if (!row.message) return;
+
+                  html += `
+          <div class="wish-card">
+            <div class="wish-message">
+              ${row.message}
+            </div>
+
+            <div class="wish-name">
+              ${row.name}
+            </div>
+          </div>
+        `;
+                });
+
+                container.innerHTML = html;
+              });
+          }
+
+          loadMessages();
+          setInterval(loadMessages, 5000);
         </script>
       </body>
     </html>
