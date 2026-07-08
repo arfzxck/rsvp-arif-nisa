@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Arif Nisa//Walimatul Urus//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:arif-nisa-walimatulurus-20260927@arifnisa.xyz
+DTSTAMP:20260101T000000Z
+DTSTART:20260927T030000Z
+DTEND:20260927T080000Z
+SUMMARY:Walimatul Urus Arif & Nisa
+DESCRIPTION:Majlis Perkahwinan Arif & Nisa. Kami menjemput anda hadir & berkongsi kebahagiaan bersama kami.
+LOCATION:Kenangan Glass Hall Klang, Lot 4845, Jalan Kenangan, Meru, 41050 Klang, Selangor
+STATUS:CONFIRMED
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Walimatul Urus Arif & Nisa
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+END:VCALENDAR
